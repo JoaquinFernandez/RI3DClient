@@ -1,4 +1,4 @@
-package com.jfernandez.ri3d.client.swing;
+package com.gamanne.ri3d.client.swing;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.jfernandez.ri3d.client.connection.SshClient;
+import com.gamanne.ri3d.client.connection.SshClient;
 
 /**
  * This class extends JFrame (Swing Library) and ActionListener, it creates a window

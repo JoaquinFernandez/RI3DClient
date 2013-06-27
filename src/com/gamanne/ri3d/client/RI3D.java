@@ -1,6 +1,6 @@
-package com.jfernandez.ri3d.client;
+package com.gamanne.ri3d.client;
 
-import com.jfernandez.ri3d.client.swing.InitialScreenFrame;
+import com.gamanne.ri3d.client.swing.InitialScreenFrame;
 
 /**
  * RI3D main class it handles the initialization of the data, the creation of the

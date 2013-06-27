@@ -1,4 +1,4 @@
-package com.jfernandez.ri3d.client;
+package com.gamanne.ri3d.client;
 
 import java.util.Properties;
 
