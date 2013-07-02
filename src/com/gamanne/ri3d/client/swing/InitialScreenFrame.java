@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -41,8 +40,6 @@ public class InitialScreenFrame extends JFrame implements ActionListener {
 	
 	/** The input password field that will contain the password the user inputs */
 	private JPasswordField passwordField;
-	
-	private static Logger LOGGER = Logger.getLogger("InfoLogging");
 	
 	/**
 	 * Constructor that will initialize all the components of the frame
@@ -148,6 +145,6 @@ public class InitialScreenFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String user = userTextField.getText();
 		String password = String.valueOf(passwordField.getPassword());
-		SshClient client = new SshClient(user, password);
+		new SshClient(user, password);
 	}
 }
