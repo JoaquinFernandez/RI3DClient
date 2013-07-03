@@ -24,7 +24,6 @@ public class SshClient {
 	private String password;
 	private String user;
 	private String host;
-	private int port;
 
 	/**
 	 * This public method gets the connection info (hostname) from the configuration
@@ -43,32 +42,37 @@ public class SshClient {
 		try {
 			String file = retrieveFile();
 			readFile(file);
-			startServerSession();
 		} catch (JSchException | IOException e) {
 			LOGGER.info(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
-	private void startServerSession() throws JSchException {
-		//Establish session with the host with the user and password given
-		//in the port set in the config file in which the server will be listening
-		JSch jsch = new JSch();
-		//This line is to bypass the known host checking, in final version it should
-		//not bypass but set the server as known host for each client
-		JSch.setConfig("StrictHostKeyChecking", "no");
-		Session session = jsch.getSession(user, host, port);
-		session.setPassword(password);
-		session.connect();
-	}
-
+	/**
+	 * Reads the information from the file, and puts it into fields
+	 * @param file the file in string format
+	 */
 	private void readFile(String file) {
 		//Get the information from the configuration file of the server
-		int startIndex = file.indexOf("newCommunicationPort = ") + 23;
-		int endIndex = file.indexOf("\n");
-		port = Integer.parseInt(file.substring(startIndex, endIndex));
+		String[] keyPairs = file.split("\n");
+		int numberOfValues = keyPairs.length;
+		String[][] values = new String[numberOfValues][numberOfValues];
+		for (int i = 0; i < numberOfValues; i++) {
+			values[i] = keyPairs[i].split("=");
+			switch (values[i][0].trim()) {
+			case "":
+				break;
+			}
+		}
 	}
 
+	/**
+	 * This method connects (with JSch) to the server and retrieves the file
+	 * with the information for the connection, then closes the session
+	 * @return the file as a String
+	 * @throws JSchException
+	 * @throws IOException
+	 */
 	private String retrieveFile() throws JSchException, IOException {
 		String formattedFile = "";
 		//Get the host info from the configuration file

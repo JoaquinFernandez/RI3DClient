@@ -18,5 +18,4 @@ public class RI3D {
 		InitialScreenFrame frame = new InitialScreenFrame();
 		frame.setVisible(true);
 	}
-
 }
