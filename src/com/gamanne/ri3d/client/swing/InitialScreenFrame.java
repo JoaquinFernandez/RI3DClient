@@ -18,8 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.gamanne.ri3d.client.connection.SshClient;
-
 /**
  * This class extends JFrame (Swing Library) and ActionListener, it creates a window
  * full size and without options bar, that asks the user for authentication,
@@ -145,6 +143,6 @@ public class InitialScreenFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String user = userTextField.getText();
 		String password = String.valueOf(passwordField.getPassword());
-		new SshClient(user, password);
+		ListenerNotifier.notifyUserData(user, password);
 	}
 }
