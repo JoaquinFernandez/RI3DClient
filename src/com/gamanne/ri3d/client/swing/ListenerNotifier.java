@@ -16,4 +16,26 @@ public class ListenerNotifier {
 			listener.inputData(user, password);
 		}
 	}
+	public static void notifyCreateServer(String flavorId, String imageId) {
+		for (UserDataListener listener : listeners) {
+			listener.createServer(flavorId, imageId);
+		}
+	}
+	public static void notifyConnectServer(String serverId) {
+		for (UserDataListener listener : listeners) {
+			listener.connectServer(serverId);
+		}
+	}
+
+	public static void notifyChangeUser() {
+		for (UserDataListener listener : listeners) {
+			listener.changeUser();
+		}
+	}
+
+	public static void notifyInstanceChange() {
+		for (UserDataListener listener : listeners) {
+			listener.instanceChange();
+		}
+	}
 }

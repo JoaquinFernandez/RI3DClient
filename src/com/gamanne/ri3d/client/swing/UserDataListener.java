@@ -4,4 +4,12 @@ public interface UserDataListener {
 
 	public void inputData (String user, String password);
 	
+	public void createServer (String flavorId, String imageId);
+	
+	public void connectServer (String serverId);
+
+	public void changeUser();
+
+	public void instanceChange();
+	
 }

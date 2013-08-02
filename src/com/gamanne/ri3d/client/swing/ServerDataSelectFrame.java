@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 
 import com.gamanne.ri3d.client.connection.ServerInfo;
 
-public class ServerDataSelect extends JFrame {
+public class ServerDataSelectFrame extends JFrame {
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class ServerDataSelect extends JFrame {
 	 * Create the frame.
 	 * @param serverInfo 
 	 */
-	public ServerDataSelect(final ServerInfo serverInfo) {
+	public ServerDataSelectFrame(final ServerInfo serverInfo) {
 		//Set Frame main options
 		setTitle("RI3D Client");
 		setExtendedState(MAXIMIZED_BOTH);
@@ -126,10 +126,18 @@ public class ServerDataSelect extends JFrame {
 			contentPane2.add(new JLabel());
 			contentPane2.add(new JLabel());
 			
-			JTextField textField = new JTextField();
+			final JTextField textField = new JTextField();
 			JButton button = new JButton("Connect to Instance");
+			button.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					String serverId = serverInfo.getServerId(textField.getText());
+					ListenerNotifier.notifyConnectServer(serverId);
+				}
+			});
 			contentPane2.add(new JLabel());
-			contentPane2.add(new JLabel("Instert existing instance ID: "));
+			contentPane2.add(new JLabel("Instert existing server name: "));
 			contentPane2.add(new JLabel());
 			contentPane2.add(textField);
 			contentPane2.add(new JLabel());

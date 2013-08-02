@@ -17,9 +17,9 @@ public class ServerInfo {
 	
 	private String[] apiTypes;
 	
-	public ServerInfo(String readFile) {
+	public ServerInfo(JSONObject serverInfo) {
 		try {
-			serverInfo = new JSONObject(readFile);
+			this.serverInfo = serverInfo;
 			JSONArray zones = serverInfo.names();
 			int numberOfZones = zones.length();
 			regionNames = new String[numberOfZones];
@@ -76,6 +76,21 @@ public class ServerInfo {
 		try {
 			String value = serverInfo.getJSONObject(regionName).getJSONArray(apiType).getJSONObject(apiTypePosition).getString(key);
 			return value;
+		} catch (JSONException e) {
+			LOGGER.warning(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String getServerId(String serverName) {
+		try {
+			JSONArray apiTypeArray = serverInfo.getJSONObject(regionNames[0]).getJSONArray(apiTypes[0]);
+			for (int i = 0; i < apiTypeArray.length(); i++) {
+				JSONObject server = apiTypeArray.getJSONObject(i);
+				if (server.getString("name").equals(serverName)) 
+					return server.getString("id");
+			}
 		} catch (JSONException e) {
 			LOGGER.warning(e.getMessage());
 			e.printStackTrace();
