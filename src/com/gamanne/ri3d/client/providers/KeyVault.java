@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.gamanne.ri3d.client.RI3DClient;
+import com.gamanne.ri3d.client.exceptions.InvalidDBCredentialsException;
 
 public class KeyVault {
 
@@ -23,7 +24,7 @@ public class KeyVault {
 
 	private List<String> eucalyptusCredentials = new ArrayList<String>();
 
-	public KeyVault(String user, String password) {
+	public KeyVault(String user, String password) throws InvalidDBCredentialsException {
 		String dburl = "jdbc:mysql://" + RI3DClient.host + ":3306/ri3d";
 		String dbuser = "ri3dadmin";
 		String dbpassword = "ri3ddb";
@@ -66,9 +67,14 @@ public class KeyVault {
 						eucalyptusCredentials.add(valuePair);
 					}
 				}
+				statement.close();
+				connection.close();
 			}
-			statement.close();
-			connection.close();
+			else {
+				statement.close();
+				connection.close();
+				throw new InvalidDBCredentialsException("Invalid user or password");
+			}
 		} catch (SQLException | ClassNotFoundException e) {
 			LOGGER.info(e.getMessage());
 			e.printStackTrace();

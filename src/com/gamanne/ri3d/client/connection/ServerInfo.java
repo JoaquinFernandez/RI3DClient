@@ -15,7 +15,7 @@ public class ServerInfo {
 
 	private String[] regionNames;
 	
-	private String[] apiTypes;
+	private String[] apiTypes;//servers/flavors/images
 	
 	public ServerInfo(JSONObject serverInfo) {
 		try {
@@ -89,6 +89,34 @@ public class ServerInfo {
 			for (int i = 0; i < apiTypeArray.length(); i++) {
 				JSONObject server = apiTypeArray.getJSONObject(i);
 				if (server.getString("name").equals(serverName)) 
+					return server.getString("id");
+			}
+		} catch (JSONException e) {
+			LOGGER.warning(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public String getImageId(String imageId) {
+		try {
+			JSONArray apiTypeArray = serverInfo.getJSONObject(regionNames[0]).getJSONArray(apiTypes[1]);
+			for (int i = 0; i < apiTypeArray.length(); i++) {
+				JSONObject server = apiTypeArray.getJSONObject(i);
+				if (server.getString("name").equals(imageId)) 
+					return server.getString("id");
+			}
+		} catch (JSONException e) {
+			LOGGER.warning(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public String getFlavorServerId(String flavorId) {
+		try {
+			JSONArray apiTypeArray = serverInfo.getJSONObject(regionNames[0]).getJSONArray(apiTypes[2]);
+			for (int i = 0; i < apiTypeArray.length(); i++) {
+				JSONObject server = apiTypeArray.getJSONObject(i);
+				if (server.getString("name").equals(flavorId)) 
 					return server.getString("id");
 			}
 		} catch (JSONException e) {

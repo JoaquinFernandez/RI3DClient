@@ -2,6 +2,7 @@ package com.gamanne.ri3d.client.connection;
 
 import java.util.logging.Logger;
 
+import com.gamanne.ri3d.client.exceptions.InvalidDBCredentialsException;
 import com.gamanne.ri3d.client.providers.KeyVault;
 import com.gamanne.ri3d.client.providers.Openstack;
 
@@ -29,10 +30,10 @@ public class ProviderManager {
 	 * @param user Authentication user
 	 * @param password Authentication password
 	 * @return 
+	 * @throws InvalidDBCredentialsException 
 	 * 
 	 */
-	public ProviderManager(String user, String password) {
-
+	public ProviderManager(String user, String password) throws InvalidDBCredentialsException {
 		keyVault = new KeyVault(user, password);
 		init();
 		LOGGER.info("Server info retrieved");
@@ -57,6 +58,15 @@ public class ProviderManager {
 			return openstack.connectInstance(serverId);
 		default:
 			return openstack.connectInstance(serverId);
+		}
+	}
+
+	public String createInstance(int provider, String newServerName, String flavorId, String imageId) {
+		switch (provider) {
+		case OPENSTACK:
+			return openstack.createInstance(newServerName, flavorId, imageId);
+		default:
+			return openstack.createInstance(newServerName, flavorId, imageId);
 		}
 	}
 }

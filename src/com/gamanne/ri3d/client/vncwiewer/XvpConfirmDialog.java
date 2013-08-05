@@ -67,10 +67,6 @@ public class XvpConfirmDialog extends Dialog implements ActionListener {
 	    vmname = vmname.substring(13);
 	else if (vmname.startsWith("XenServer Console - ")) // xvp <= 1.4.1
 	    vmname = vmname.substring(20);
-	XvpConfirmDialog box = new XvpConfirmDialog(viewer.vncFrame,
-						    action, vmname);
-	boolean result = box.ok;
-	box.dispose();
-	return result;
+	return true;
     }
 }

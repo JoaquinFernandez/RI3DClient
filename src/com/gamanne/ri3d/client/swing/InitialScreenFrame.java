@@ -1,18 +1,14 @@
 package com.gamanne.ri3d.client.swing;
 
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -28,7 +24,7 @@ import javax.swing.JTextField;
  * @author Joaquin Fernandez
  *
  */
-public class InitialScreenFrame extends JFrame implements ActionListener {
+public class InitialScreenFrame extends Container implements ActionListener {
 
 	/** Serial version	 */
 	private static final long serialVersionUID = 1L;
@@ -43,27 +39,12 @@ public class InitialScreenFrame extends JFrame implements ActionListener {
 	 * Constructor that will initialize all the components of the frame
 	 */
 	public InitialScreenFrame() {
-		//Set Frame main options
-		setTitle("RI3D Client");
-		setExtendedState(MAXIMIZED_BOTH);
-		setUndecorated(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		try {
-			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("foto.jpg")))));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		JPanel loginPanel = getJPanelUserInfo();
 		//Set the geometry container and contents
 		GridLayout frameGeometryLayout = new GridLayout(4, 4);
 		setLayout(frameGeometryLayout);
 		//Add empty components untill getting to the position we want
 		add(new JLabel());
-		try {
-			add(new JLabel(new ImageIcon(ImageIO.read(new File("logo.jpg")))));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		add(new JLabel());
 		add(new JLabel());
 		add(new JLabel());

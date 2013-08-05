@@ -59,9 +59,5 @@ public class ReloginPanel extends Panel implements ActionListener {
   // This method is called when a button is pressed.
   //
   public synchronized void actionPerformed(ActionEvent evt) {
-    if (viewer.inSeparateFrame)
-      viewer.vncFrame.dispose();
-    if (evt.getSource() == reloginButton)
-      viewer.getAppletContext().showDocument(viewer.getDocumentBase());
   }
 }

@@ -18,9 +18,11 @@ import org.jclouds.openstack.nova.v2_0.NovaApiMetadata;
 import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.Image;
 import org.jclouds.openstack.nova.v2_0.domain.Server;
+import org.jclouds.openstack.nova.v2_0.domain.ServerCreated;
 import org.jclouds.openstack.nova.v2_0.features.FlavorApi;
 import org.jclouds.openstack.nova.v2_0.features.ImageApi;
 import org.jclouds.openstack.nova.v2_0.features.ServerApi;
+import org.jclouds.openstack.nova.v2_0.options.CreateServerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +39,6 @@ public class Openstack {
 
 	private List<String> zones = new ArrayList<String>();
 
-	private boolean finished;
-
 	private String password;
 
 	private ServerInfo serverInfo;
@@ -49,16 +49,9 @@ public class Openstack {
 
 
 	public Openstack(List<String> list) {
-		try {
-			LOGGER.info("Initializing...");
-			credentials(list);
-			init();
-			retrieveServerInfo();
-		}
-		catch (Exception e) {
-			LOGGER.warning(e.getMessage());
-			e.printStackTrace();
-		}
+		LOGGER.info("Initializing...");
+		credentials(list);
+		init();
 	}
 
 	private void credentials(List<String> list) {
@@ -135,7 +128,6 @@ public class Openstack {
 				serversInfo.put(zone, serverInfo);
 			}
 			this.serverInfo = new ServerInfo(serversInfo);
-			finished = true;
 		} catch (JSONException e) {
 			LOGGER.warning(e.getMessage());
 			e.printStackTrace();
@@ -143,14 +135,13 @@ public class Openstack {
 	}
 
 	public ServerInfo getServerInfo() {
-		while (!finished) {
+		while (api == null) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
+		retrieveServerInfo();
 
 		return serverInfo;
 
@@ -209,6 +200,25 @@ public class Openstack {
 			LOGGER.warning(e.getMessage());
 			e.printStackTrace();
 		}
+		return url;
+	}
+
+	public String createInstance(String newServerName, String flavorId, String imageId) {
+		ServerApi serverApi = api.getServerApiForZone(zones.get(0));
+		ServerCreated serverCreated = serverApi.create(newServerName, imageId, flavorId, new CreateServerOptions());
+		Server server = api.getServerApiForZone(zones.get(0)).get(serverCreated.getId());
+		//wait for the server to finish its build state (when it is finished it will be marked as build
+		while (server.getStatus().equals(Server.Status.BUILD)) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+			server = api.getServerApiForZone(zones.get(0)).get(serverCreated.getId());
+		}
+		//Check if the server status is active to request vnc url
+		if (!server.getStatus().equals(Server.Status.ACTIVE))
+			return null;
+		String url = connectInstance(server.getId());
 		return url;
 	}
 }

@@ -330,8 +330,6 @@ public class VncCanvas extends Canvas
 				     scaledHeight +
 				     2 * Math.min(insets.top, insets.bottom));
 
-    viewer.vncFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
-
     viewer.desktopScrollPane.doLayout();
   }
 

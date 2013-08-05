@@ -42,8 +42,6 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
   VncViewer viewer;
   Button disconnectButton;
   Button optionsButton;
-  // Button recordButton;
-  Button clipboardButton;
   Button ctrlAltDelButton;
   Checkbox ctrlCheckbox;
   Checkbox altCheckbox;
@@ -78,18 +76,6 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
     disconnectButton.setEnabled(false);
     add(disconnectButton);
     disconnectButton.addActionListener(this);
-    optionsButton = new Button("Change user");
-    add(optionsButton);
-    optionsButton.addActionListener(this);
-    clipboardButton = new Button("Change Instance");
-    clipboardButton.setEnabled(false);
-    add(clipboardButton);
-    clipboardButton.addActionListener(this);
-    // if (viewer.rec != null) {
-    //   recordButton = new Button("Record");
-    //   add(recordButton);
-    //   recordButton.addActionListener(this);
-    // }
     ctrlCheckbox = new Checkbox("Ctrl");
     ctrlCheckbox.setEnabled(false);
     add(ctrlCheckbox);
@@ -119,7 +105,7 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
     refreshButton = new Button("Refresh");
     refreshButton.setEnabled(false);
     add(refreshButton);
-    refreshButton.addActionListener(this);
+    refreshButton.addActionListener(this);/*
 
     xvpShutdownButton = new Button("Shutdown");
     xvpShutdownButton.setEnabled(false);
@@ -134,7 +120,7 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
     xvpResetButton = new Button("Reset");
     xvpResetButton.setEnabled(false);
     xvpResetButton.addActionListener(this);
-    add(xvpResetButton);
+    add(xvpResetButton);*/
   }
 
   //
@@ -143,7 +129,6 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
 
   public void enableButtons() {
     disconnectButton.setEnabled(true);
-    clipboardButton.setEnabled(true);
     refreshButton.setEnabled(true);
   }
 
@@ -158,8 +143,6 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
     add(disconnectButton, 0);
     disconnectButton.addActionListener(this);
 
-    optionsButton.setEnabled(false);
-    clipboardButton.setEnabled(false);
     ctrlCheckbox.setEnabled(false);
     altCheckbox.setEnabled(false);
     fxChoice.setEnabled(false);
@@ -254,12 +237,8 @@ public class ButtonPanel extends Panel implements ActionListener, ItemListener {
     viewer.moveFocusToDesktop();
 
     if (evt.getSource() == disconnectButton) {
-      viewer.disconnect();
-
-    } else if (evt.getSource() == optionsButton) {
+    	viewer.disconnect();
     	ListenerNotifier.notifyChangeUser();
-    } else if (evt.getSource() == clipboardButton) {
-    	ListenerNotifier.notifyInstanceChange();
 
     } else if (evt.getSource() == ctrlAltDelButton) {
       try {
